@@ -17,7 +17,20 @@ package org.apache.ibatis.autoconstructor;
 
 import org.apache.ibatis.annotations.AutomapConstructor;
 
+/**
+ *  对应数据库表格 subject
+ */
 public class AnnotatedSubject {
+
+  /**
+   *   id     INT NOT NULL,
+   *   name   VARCHAR(20),
+   *   age    INT NOT NULL,
+   *   height INT,
+   *   weight INT,
+   *   active BIT,   这个字段是没有的
+   *   dt     TIMESTAMP   这个字段是没有的
+   */
   private final int id;
   private final String name;
   private final int age;
@@ -32,6 +45,14 @@ public class AnnotatedSubject {
     this.weight = weight;
   }
 
+  /**
+   *     @AutomapConstructor 注解,表示在MyBatis查询后,在创建AnnotatedSubject 类的时候  使用该构造器
+   * @param id
+   * @param name
+   * @param age
+   * @param height    Integer 类型
+   * @param weight    Integer 类型
+   */
   @AutomapConstructor
   public AnnotatedSubject(final int id, final String name, final int age, final Integer height, final Integer weight) {
     this.id = id;

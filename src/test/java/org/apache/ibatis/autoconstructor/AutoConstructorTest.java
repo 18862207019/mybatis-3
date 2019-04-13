@@ -15,6 +15,7 @@
  */
 package org.apache.ibatis.autoconstructor;
 
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import org.apache.ibatis.BaseDataTest;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.apache.ibatis.io.Resources;
@@ -31,17 +32,22 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+/**
+ * 单元测试类
+ */
 class AutoConstructorTest {
   private static SqlSessionFactory sqlSessionFactory;
 
   @BeforeAll
   static void setUp() throws Exception {
     // create a SqlSessionFactory
+    // 创建 SqlSessionFactory 对象，基于 mybatis-config.xml 配置文件。
     try (Reader reader = Resources.getResourceAsReader("org/apache/ibatis/autoconstructor/mybatis-config.xml")) {
       sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
     }
 
     // populate in-memory database
+    // 初始化数据到内存数据库，基于 CreateDB.sql SQL 文件。
     BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),
         "org/apache/ibatis/autoconstructor/CreateDB.sql");
   }
@@ -51,6 +57,7 @@ class AutoConstructorTest {
     try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
       final AutoConstructorMapper mapper = sqlSession.getMapper(AutoConstructorMapper.class);
       final Object subject = mapper.getSubject(1);
+//      System.out.println(subject);
       assertNotNull(subject);
     }
   }
@@ -75,7 +82,8 @@ class AutoConstructorTest {
   void badSubject() {
     try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
       final AutoConstructorMapper mapper = sqlSession.getMapper(AutoConstructorMapper.class);
-      assertThrows(PersistenceException.class, mapper::getBadSubjects);
+      System.out.println(mapper.getBadSubjects());
+//      assertThrows(PersistenceException.class, );
     }
   }
 

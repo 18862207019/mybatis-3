@@ -40,6 +40,14 @@ class GenericTokenParserTest {
     }
   }
 
+  public static void main(String[] args) {
+    new HashMap<String,String>(){
+      {
+        put("1","2");
+      }
+    };
+  }
+
   @Test
   void shouldDemonstrateGenericTokenReplacement() {
     GenericTokenParser parser = new GenericTokenParser("${", "}", new VariableTokenHandler(new HashMap<String, String>() {

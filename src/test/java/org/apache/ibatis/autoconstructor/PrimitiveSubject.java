@@ -18,6 +18,16 @@ package org.apache.ibatis.autoconstructor;
 import java.util.Date;
 
 public class PrimitiveSubject {
+
+  /**
+   *   id     INT NOT NULL,
+   *   name   VARCHAR(20),
+   *   age    INT NOT NULL,
+   *   height INT,
+   *   weight INT,
+   *   active BIT,
+   *   dt     TIMESTAMP
+   */
   private final int id;
   private final String name;
   private final int age;
@@ -26,6 +36,7 @@ public class PrimitiveSubject {
   private final boolean active;
   private final Date dt;
 
+  //这上面的都是int 不是Integer    如果创建Subject对象这两个字段为null的时候会创建对象报错
   public PrimitiveSubject(final int id, final String name, final int age, final int height, final int weight, final boolean active, final Date dt) {
     this.id = id;
     this.name = name;

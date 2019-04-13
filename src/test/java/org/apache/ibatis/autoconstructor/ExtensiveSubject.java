@@ -15,7 +15,26 @@
  */
 package org.apache.ibatis.autoconstructor;
 
+/**
+ *  这个对象涵盖了各种基本数据类型和String
+ */
 public class ExtensiveSubject {
+
+    /**
+     *   aByte      TINYINT,
+     *   aShort     SMALLINT,
+     *   aChar      CHAR,
+     *   anInt      INT,
+     *   aLong      BIGINT,
+     *   aFloat     FLOAT,
+     *   aDouble    DOUBLE,
+     *   aBoolean   BIT,
+     *   aString    VARCHAR(255),
+     *   anEnum     VARCHAR(50),
+     *   aClob      LONGVARCHAR,
+     *   aBlob      LONGVARBINARY,
+     *   aTimestamp TIMESTAMP
+     */
     private final byte aByte;
     private final short aShort;
     private final char aChar;
