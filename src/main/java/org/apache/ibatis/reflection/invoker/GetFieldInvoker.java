@@ -1,18 +1,3 @@
-/**
- *    Copyright 2009-2018 the original author or authors.
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *       http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- */
 package org.apache.ibatis.reflection.invoker;
 
 import java.lang.reflect.Field;
@@ -20,15 +5,18 @@ import java.lang.reflect.Field;
 import org.apache.ibatis.reflection.Reflector;
 
 /**
- * @author Clinton Begin
+ * 实现 Invoker 接口，获得 Field 调用者
  */
 public class GetFieldInvoker implements Invoker {
+
+  //  Field 对象
   private final Field field;
 
   public GetFieldInvoker(Field field) {
     this.field = field;
   }
 
+  // 获得属性
   @Override
   public Object invoke(Object target, Object[] args) throws IllegalAccessException {
     try {
@@ -43,6 +31,7 @@ public class GetFieldInvoker implements Invoker {
     }
   }
 
+  // 获得返回值类型
   @Override
   public Class<?> getType() {
     return field.getType();

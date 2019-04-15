@@ -1,18 +1,3 @@
-/**
- *    Copyright 2009-2019 the original author or authors.
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *       http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- */
 package org.apache.ibatis.reflection.factory;
 
 import java.io.Serializable;
@@ -35,7 +20,7 @@ import org.apache.ibatis.reflection.ReflectionException;
 import org.apache.ibatis.reflection.Reflector;
 
 /**
- * @author Clinton Begin
+ * 实现 ObjectFactory、Serializable 接口，默认 ObjectFactory 实现类。
  */
 public class DefaultObjectFactory implements ObjectFactory, Serializable {
 
@@ -46,22 +31,29 @@ public class DefaultObjectFactory implements ObjectFactory, Serializable {
     return create(type, null, null);
   }
 
-  @SuppressWarnings("unchecked")
+
   @Override
   public <T> T create(Class<T> type, List<Class<?>> constructorArgTypes, List<Object> constructorArgs) {
+
+    // <1> 获得需要创建的类
     Class<?> classToCreate = resolveInterface(type);
-    // we know types are assignable
+
+
+    // <2> 创建指定类的对象
     return (T) instantiateClass(classToCreate, constructorArgTypes, constructorArgs);
   }
 
+  // 设置 Properties
   @Override
   public void setProperties(Properties properties) {
-    // no props for default
-  }
 
+  }
+  // 创建指定类的对象
   private  <T> T instantiateClass(Class<T> type, List<Class<?>> constructorArgTypes, List<Object> constructorArgs) {
     try {
       Constructor<T> constructor;
+
+      // <x1> 通过无参构造方法，创建指定类的对象
       if (constructorArgTypes == null || constructorArgs == null) {
         constructor = type.getDeclaredConstructor();
         try {
@@ -75,6 +67,7 @@ public class DefaultObjectFactory implements ObjectFactory, Serializable {
           }
         }
       }
+      // <x2> 使用特定构造方法，创建指定类的对象
       constructor = type.getDeclaredConstructor(constructorArgTypes.toArray(new Class[constructorArgTypes.size()]));
       try {
         return constructor.newInstance(constructorArgs.toArray(new Object[constructorArgs.size()]));
@@ -87,14 +80,18 @@ public class DefaultObjectFactory implements ObjectFactory, Serializable {
         }
       }
     } catch (Exception e) {
+
+      // 拼接 argTypes
       String argTypes = Optional.ofNullable(constructorArgTypes).orElseGet(Collections::emptyList)
           .stream().map(Class::getSimpleName).collect(Collectors.joining(","));
       String argValues = Optional.ofNullable(constructorArgs).orElseGet(Collections::emptyList)
           .stream().map(String::valueOf).collect(Collectors.joining(","));
+
+      // 抛出 ReflectionException 异常
       throw new ReflectionException("Error instantiating " + type + " with invalid types (" + argTypes + ") or values (" + argValues + "). Cause: " + e, e);
     }
   }
-
+ //  获取需要创建的类
   protected Class<?> resolveInterface(Class<?> type) {
     Class<?> classToCreate;
     if (type == List.class || type == Collection.class || type == Iterable.class) {
@@ -110,7 +107,7 @@ public class DefaultObjectFactory implements ObjectFactory, Serializable {
     }
     return classToCreate;
   }
-
+  // 判断指定类是否为集合类
   @Override
   public <T> boolean isCollection(Class<T> type) {
     return Collection.class.isAssignableFrom(type);

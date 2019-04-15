@@ -58,7 +58,7 @@ public class Reflector {
   // 构造器
   public Reflector(Class<?> clazz) {
 
-  // 设置对应的类
+    // 设置对应的类
     type = clazz;
 
     // <1> 初始化 defaultConstructor
