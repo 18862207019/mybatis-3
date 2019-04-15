@@ -2,7 +2,7 @@
 package org.apache.ibatis.exceptions;
 
 /**
- * @author Clinton Begin
+ * 实现 RuntimeException 类，IBatis 的异常基类
  */
 @Deprecated
 public class IbatisException extends RuntimeException {
